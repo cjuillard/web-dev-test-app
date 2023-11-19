@@ -12,36 +12,43 @@ export function WheelSpinner({ userId, userCoins, updateCoins }: WheelSpinnerPro
     const [rotation, setRotation] = useState(0);
     const [coins, setCoins] = useState(userCoins);
 
-    function getCurrCoinReward() {
-      const normalizedRot = rotation % 360
+    const spinDelay = 4000
+
+    function getCurrCoinReward(rotation: number) {
+      const normalizedRot = (rotation + 30) % 360
+      console.log(rotation)
+      console.log(normalizedRot)
       if(normalizedRot < 60)
-        return -1
-      else if(normalizedRot < 120)
-        return 1000
-      else if(normalizedRot < 180)
-        return 200
-      else if(normalizedRot < 240)
         return 100
+      else if(normalizedRot < 120)
+        return 2000
+      else if(normalizedRot < 180)
+        return -1
+      else if(normalizedRot < 240)
+        return 600
       else if(normalizedRot < 300)
         return 400
       else
-        return 1000
+        return 200
     }
 
-
-    function spin() {
+    async function spin() {
         console.log(rotation)
-        setRotation(rotation + 720 + 1080 * Math.random())
 
-        let reward = getCurrCoinReward()
+        let newRotation = rotation + 720 + 1080 * Math.random()
+        setRotation(newRotation)
+
+        let reward = getCurrCoinReward(newRotation)
         let newCoins = coins
         if(reward == -1)
           newCoins = 0
         else
           newCoins = coins + reward
 
-        setCoins(newCoins)
-        updateCoins(userId, newCoins)
+        setTimeout(function() {
+          setCoins(newCoins)
+          updateCoins(userId, newCoins)
+        }, spinDelay);
     }
 
     
@@ -53,18 +60,27 @@ export function WheelSpinner({ userId, userCoins, updateCoins }: WheelSpinnerPro
         transform,
         transition: 'transform 4000ms ease', // smooth transition
       }
+      rotate_style['transition'] = 'transform ' + spinDelay + 'ms ease'
       console.log(rotate_style)
 
     return (
     <>
-        <img style={rotate_style} src="./spinning_wheel.png" />
-        <button onClick={spin}>
-            Spin
+      <center>
+        <div className='spinner-parent'>
+          <img style={rotate_style} src="./spinning_wheel.png" />
+          <img className='spinner-arrow-img' src="./arrow.png" />
+        </div>
+        
+        <br/>
+        <button className="border border-slate-300 text-slate-200 bg-green-700 px-10 py-2
+        hover:bg-green-600 focus-within:bg-green-600 rounded flex text-xl" onClick={spin}>
+            Spin!
         </button>
         <br/>
-        <label>
-          {coins}
+        <label className="text-xl">
+          Coins: ${coins}
         </label>
+      </center>
     </>
   );
 }

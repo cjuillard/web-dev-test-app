@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.spinner-parent {
+    position: relative;
+}
+
+.spinner-arrow-img {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translate(-50%, 0)
+}
