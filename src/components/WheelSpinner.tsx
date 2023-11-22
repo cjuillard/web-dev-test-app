@@ -1,14 +1,15 @@
 "use client"
 
+import { updateCoins } from '@/db-api';
 import { useState } from 'react';
 
 type WheelSpinnerProps = {
   userId: number,
+  userName: string,
   userCoins: number,
-  updateCoins: (userId: number, coins: number) => void
 };
 
-export function WheelSpinner({ userId, userCoins, updateCoins }: WheelSpinnerProps) {
+export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps) {
     const [rotation, setRotation] = useState(0);
     const [coins, setCoins] = useState(userCoins);
 
@@ -32,7 +33,7 @@ export function WheelSpinner({ userId, userCoins, updateCoins }: WheelSpinnerPro
         return 200
     }
 
-    async function spin() {
+    function spin() {
         console.log(rotation)
 
         let newRotation = rotation + 720 + 1080 * Math.random()

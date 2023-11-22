@@ -1,6 +1,6 @@
-import Link from "../../../node_modules/next/link";
-import { redirect } from "../../../node_modules/next/navigation";
-import prisma from "../db";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import prisma from "../../db";
 
 async function createTodo(data: FormData) {
   "use server";
@@ -11,7 +11,7 @@ async function createTodo(data: FormData) {
   }
 
   await prisma.todo.create({ data: { title, complete: false } });
-  redirect("/");
+  redirect("/todo");
 }
 
 export default function Page() {
@@ -30,7 +30,7 @@ export default function Page() {
         />
         <div className="flex gap-1 justify-end">
           <Link
-            href=".."
+            href="/todo"
             className="border border-slate-300 text-slate-300 px-2 py-1 rounded 
                         hover:bg-slate-700 focus-within:bg-slate-700 outline-none"
           >
