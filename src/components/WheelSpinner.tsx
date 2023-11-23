@@ -2,6 +2,7 @@
 
 import { updateCoins } from '@/db-api';
 import { useState } from 'react';
+import { useSpring, animated } from 'react-spring';
 
 type WheelSpinnerProps = {
   userId: number,
@@ -12,6 +13,7 @@ type WheelSpinnerProps = {
 export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps) {
     const [rotation, setRotation] = useState(0);
     const [coins, setCoins] = useState(userCoins);
+    const [prevCoins, setPrevCoins] = useState(userCoins);
 
     const spinDelay = 4000
 
@@ -33,9 +35,11 @@ export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps)
         return 200
     }
 
-    function spin() {
-        console.log(rotation)
+    function timeout(delay: number) {
+        return new Promise( res => setTimeout(res, delay) );
+    }
 
+    async function spin() {
         let newRotation = rotation + 720 + 1080 * Math.random()
         setRotation(newRotation)
 
@@ -46,10 +50,11 @@ export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps)
         else
           newCoins = coins + reward
 
-        setTimeout(function() {
-          setCoins(newCoins)
-          updateCoins(userId, newCoins)
-        }, spinDelay);
+        await timeout(spinDelay);
+
+        setPrevCoins(coins);
+        setCoins(newCoins);
+        await updateCoins(userId, newCoins);
     }
 
     
@@ -70,18 +75,32 @@ export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps)
         <div className='spinner-parent'>
           <img style={rotate_style} src="./spinning_wheel.png" />
           <img className='spinner-arrow-img' src="./arrow.png" />
+          <br/>
+          <button className="spinner-button border border-slate-300 text-slate-200 bg-green-700 px-10 py-2
+          hover:bg-green-600 focus-within:bg-green-600 rounded flex text-xl" onClick={spin}>
+              Spin!
+          </button>
         </div>
         
         <br/>
-        <button className="border border-slate-300 text-slate-200 bg-green-700 px-10 py-2
-        hover:bg-green-600 focus-within:bg-green-600 rounded flex text-xl" onClick={spin}>
-            Spin!
-        </button>
+        <br/>
         <br/>
         <label className="text-xl">
-          Coins: ${coins}
+          Coins: $<AnimatedNumber startNumber={prevCoins} endNumber={coins} />
         </label>
       </center>
     </>
   );
+}
+
+type AnimatedNumberProps = {
+  startNumber: number
+  endNumber: number
+}
+function AnimatedNumber({startNumber, endNumber}: AnimatedNumberProps) {
+  const { number } = useSpring({
+    from: { number: startNumber },
+    to: { number: endNumber},
+  });
+  return <animated.span>{number.to((n) => n.toFixed(0))}</animated.span>;
 }

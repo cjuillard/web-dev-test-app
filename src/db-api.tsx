@@ -31,4 +31,5 @@ export async function getUser() {
 export async function updateCoins(id: number, coins: number) {
   console.log("updateCoins - " + coins)
   await prisma.user.update({ where: { id }, data: { coins } })
+  console.log("updateCoins - " + coins + " complete")
 }

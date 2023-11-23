@@ -10,5 +10,12 @@
     position: absolute;
     top: -20px;
     left: 50%;
-    transform: translate(-50%, 0)
+    transform: translate(-50%, 0);
+}
+
+.spinner-button {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
