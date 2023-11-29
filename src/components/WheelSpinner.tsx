@@ -14,6 +14,7 @@ export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps)
     const [rotation, setRotation] = useState(0);
     const [coins, setCoins] = useState(userCoins);
     const [prevCoins, setPrevCoins] = useState(userCoins);
+    const [isSpinning, setIsSpinning] = useState(false);
 
     const spinDelay = 4000
 
@@ -41,6 +42,7 @@ export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps)
 
     async function spin() {
         let newRotation = rotation + 720 + 1080 * Math.random()
+        setIsSpinning(true);
         setRotation(newRotation)
 
         let reward = getCurrCoinReward(newRotation)
@@ -51,6 +53,7 @@ export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps)
           newCoins = coins + reward
 
         await timeout(spinDelay);
+        setIsSpinning(false);
 
         setPrevCoins(coins);
         setCoins(newCoins);
@@ -72,7 +75,7 @@ export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps)
           <img className='spinner-arrow-img' src="./arrow.png" />
           <br/>
           <button className="spinner-button border border-slate-300 text-slate-200 bg-green-700 px-10 py-2
-          hover:bg-green-600 focus-within:bg-green-600 rounded flex text-xl" onClick={spin}>
+          hover:bg-green-600 focus-within:bg-green-600 disabled:opacity-50 rounded flex text-3xl" onClick={spin} disabled={isSpinning}>
               Spin!
           </button>
         </div>
@@ -80,9 +83,8 @@ export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps)
         <br/>
         <br/>
         <br/>
-        💸
-        <span className="text-3xl">💰</span>
-        <span className="text-xl">$<AnimatedNumber startNumber={prevCoins} endNumber={coins} /></span>
+        <span className="text-4xl">💰</span>
+        <span className="text-3xl">$<AnimatedNumber startNumber={prevCoins} endNumber={coins} /></span>
       </center>
     </>
   );
