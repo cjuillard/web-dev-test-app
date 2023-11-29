@@ -1,5 +1,5 @@
 import { getOrCreateUser } from "@/db-api";
-import { WheelSpinnerClient } from "../../components/WheelSpinnerClient"
+import { WheelSpinnerForm } from "../../components/WheelSpinnerForm"
 
 
 export default async function WheelSpinnerPage() {
@@ -21,6 +21,6 @@ export default async function WheelSpinnerPage() {
     }
 
     return <>
-            <WheelSpinnerClient findUser={findUser} />
+            <WheelSpinnerForm findUser={findUser} />
             </>
 }

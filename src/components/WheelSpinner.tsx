@@ -57,21 +57,16 @@ export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps)
         await updateCoins(userId, newCoins);
     }
 
-    
-    const rotStr = 'rotate(' + rotation + 'deg)'
-    const transform = 'rotate(' + rotation + 'deg)'
-    
     const rotate_style = {
-        //transform: {rotStr},  // TODO figure out how to do this
-        transform,
-        transition: 'transform 4000ms ease', // smooth transition
+        transform: `rotate(${rotation}deg)`,
+        transition: `transform ${spinDelay}ms ease`, // smooth transition
       }
-      rotate_style['transition'] = 'transform ' + spinDelay + 'ms ease'
       console.log(rotate_style)
 
     return (
     <>
       <center>
+        <br/>
         <div className='spinner-parent'>
           <img style={rotate_style} src="./spinning_wheel.png" />
           <img className='spinner-arrow-img' src="./arrow.png" />
@@ -85,9 +80,9 @@ export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps)
         <br/>
         <br/>
         <br/>
-        <label className="text-xl">
-          Coins: $<AnimatedNumber startNumber={prevCoins} endNumber={coins} />
-        </label>
+        💸
+        <span className="text-3xl">💰</span>
+        <span className="text-xl">$<AnimatedNumber startNumber={prevCoins} endNumber={coins} /></span>
       </center>
     </>
   );
@@ -103,4 +98,8 @@ function AnimatedNumber({startNumber, endNumber}: AnimatedNumberProps) {
     to: { number: endNumber},
   });
   return <animated.span>{number.to((n) => n.toFixed(0))}</animated.span>;
+}
+
+function AnimatedMoney(numberOfIcons: number) {
+
 }

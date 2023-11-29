@@ -9,12 +9,12 @@ type UserData = {
     coins: number
 }
 
-type WheelSpinnerClientProps = {
+type WheelSpinnerFormProps = {
     findUser: (data: FormData) => Promise<UserData>
   };
 
 
-export function WheelSpinnerClient({findUser}: WheelSpinnerClientProps) {
+export function WheelSpinnerForm({findUser}: WheelSpinnerFormProps) {
     "use client"
     const [showFindingUser, setShowFindingUser] = useState(false);
     const [userData, setUserData] = useState<UserData | null>(null);
