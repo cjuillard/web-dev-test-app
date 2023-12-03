@@ -1,33 +1,41 @@
-"use server"
+"use server";
 
-import prisma from "./app/db"
+import prisma from "./app/db";
 
 function getTodos() {
-  return prisma.todo.findMany()
+  return prisma.todo.findMany();
 }
 
 export async function getOrCreateUser(name: string) {
-  let user
+  let user;
   try {
     user = await prisma.user.findFirstOrThrow({
       where: { name },
-    })
-  } catch(e) {
+    });
+  } catch (e) {
     user = await prisma.user.create({
       data: {
-          name,
+        name,
       },
-    })
+    });
   }
- 
-  console.log(user)
+
   return user;
 }
 
 export async function getUser() {
-  return await getOrCreateUser('Colin')
+  return await getOrCreateUser("Colin");
 }
 
 export async function updateCoins(id: number, coins: number) {
   await prisma.user.update({ where: { id }, data: { coins } });
+}
+
+export async function getTop10() {
+  const top10Users = await prisma.user.findMany({
+    orderBy: { coins: "desc" },
+    take: 10,
+  });
+
+  return top10Users;
 }
