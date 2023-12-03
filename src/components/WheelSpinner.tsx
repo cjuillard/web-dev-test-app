@@ -20,8 +20,6 @@ export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps)
 
     function getCurrCoinReward(rotation: number) {
       const normalizedRot = (rotation + 30) % 360
-      console.log(rotation)
-      console.log(normalizedRot)
       if(normalizedRot < 60)
         return 100
       else if(normalizedRot < 120)
@@ -64,7 +62,6 @@ export function WheelSpinner({ userId, userName, userCoins }: WheelSpinnerProps)
         transform: `rotate(${rotation}deg)`,
         transition: `transform ${spinDelay}ms ease`, // smooth transition
       }
-      console.log(rotate_style)
 
     return (
     <>
@@ -100,8 +97,4 @@ function AnimatedNumber({startNumber, endNumber}: AnimatedNumberProps) {
     to: { number: endNumber},
   });
   return <animated.span>{number.to((n) => n.toFixed(0))}</animated.span>;
-}
-
-function AnimatedMoney(numberOfIcons: number) {
-
 }
