@@ -37,11 +37,11 @@ export function WheelSpinner({
   }
 
   async function spin() {
-    let newRotation = rotation + 720 + 1080 * Math.random();
+    const newRotation = rotation + 720 + 1080 * Math.random();
     setIsSpinning(true);
     setRotation(newRotation);
 
-    let reward = getCurrCoinReward(newRotation);
+    const reward = getCurrCoinReward(newRotation);
     let newCoins = coins;
     if (reward == -1) newCoins = 0;
     else newCoins = coins + reward;
