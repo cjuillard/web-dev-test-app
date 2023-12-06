@@ -4,7 +4,7 @@ import prisma from "../db";
 
 export const fetchCache = 'force-no-store'
 
-export async function getTop10() {
+async function getTop10() {
   const top10Users = await prisma.user.findMany({
     orderBy: { coins: "desc" },
     take: 10,
