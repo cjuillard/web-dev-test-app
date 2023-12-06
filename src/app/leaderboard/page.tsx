@@ -1,6 +1,6 @@
 import { getTop10 } from "@/db-api";
 
-export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
 
 export default async function Leaderboard() {
   const users = await getTop10();
