@@ -1,18 +1,7 @@
-// import { getTop10 } from "@/db-api";
+import { getTop10 } from "@/db-api";
 
 export const fetchCache = 'force-no-store'
 export const dynamic = 'force-dynamic'
-
-import prisma from "../db";
-
-async function getTop10() {
-  const top10Users = await prisma.user.findMany({
-    orderBy: { coins: "desc" },
-    take: 10,
-  });
-
-  return top10Users;
-}
 
 export default async function Leaderboard() {
   const users = await getTop10();
